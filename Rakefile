@@ -98,6 +98,20 @@ namespace :db do
     exec("dropdb #{DB_NAME}")
   end
 
+  desc "Reset the database at #{DB_NAME}"
+  task :reset do
+    puts "Dropping database #{DB_NAME}..."
+    exec("dropdb #{DB_NAME}")
+    puts "Creating database #{DB_NAME} if it doesn't exist..."
+    exec("createdb #{DB_NAME}")
+    ActiveRecord::Migrator.migrations_paths << File.dirname(__FILE__) + 'db/migrate'
+    ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
+    ActiveRecord::Migrator.migrate(ActiveRecord::Migrator.migrations_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do |migration|
+      ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
+    require APP_ROOT.join('db', 'seeds.rb')
+    end
+  end
+
   desc "Migrate the database (options: VERSION=x, VERBOSE=false, SCOPE=blog)."
   task :migrate do
     ActiveRecord::Migrator.migrations_paths << File.dirname(__FILE__) + 'db/migrate'
@@ -112,22 +126,15 @@ namespace :db do
     require APP_ROOT.join('db', 'seeds.rb')
   end
 
-  desc "rollback your migration--use STEPS=number to step back multiple times"
-  task :rollback do
-    steps = (ENV['STEPS'] || 1).to_i
-    ActiveRecord::Migrator.rollback('db/migrate', steps)
-    Rake::Task['db:version'].invoke if Rake::Task['db:version']
-  end
-
   desc "Returns the current schema version number"
   task :version do
     puts "Current version: #{ActiveRecord::Migrator.current_version}"
   end
 end
 
-desc 'Start IRB with application environment loaded'
+desc 'Start PRY with application environment loaded'
 task "console" do
-  exec "irb -r./config/environment"
+  exec "pry -r./config/environment"
 end
 
 desc "Run the specs"
