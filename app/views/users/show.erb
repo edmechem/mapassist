@@ -1,0 +1,9 @@
+<div class="container">
+  <% if current_user %>
+    <p>
+      Name: <%= current_user.full_name %><br>
+      Email: <%= current_user.email %><br>
+      Username: <%= current_user.username %>
+    </p>
+  <% end %>
+</div>
