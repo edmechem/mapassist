@@ -1,11 +1,22 @@
 <div class="container">
-  <% if current_user %>
-  <p>Hello, <%= current_user.first_name %>!</p>
-  <% end %>
+  <!-- < % if current_user %> -->
+  <!-- <p>Hello, < %= current_user.first_name %>!</p> -->
+  <!-- < % end %> -->
+
+  <form id="manually_enter" method="post" action="/directions">
+    <label for="origin">Starting Address &amp; Zip: </label>
+    <input type="text" name="origin"><br>
+    <br>
+    <label for="destination">Destination Address &amp; Zip: </label>
+    <input type="text" name="destination"><br>
+    <br>
+    <input type="submit" value="Directions">
+  </form>
+  <br>
+
+
+  <div id="map">
+  </div>
+
 </div>
 
-<div id="map">
-
-
-
-</div>

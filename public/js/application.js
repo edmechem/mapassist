@@ -4,10 +4,10 @@ var marker;
 
 
 function initMap() {
-
+  // works
   map = new google.maps.Map(document.getElementById('map'), {
     center: myLatLng,
-    zoom: 10
+    zoom: 12
   });
 
   // marker = new google.maps.Marker({
@@ -23,4 +23,29 @@ function initMap() {
   //   var latlng = {lat: lat, lng: long};
   // });
 
-}
+};
+
+
+$(document).ready(function() {
+
+  $("#manually_enter").on("submit", function(event) {
+    event.preventDefault();
+    directionsRequest = $(this).serialize();
+    var queryURL = 'https://maps.googleapis.com/maps/api/directions/json?' + directionsRequest;
+
+    var ajaxRequest = $.ajax({
+      method: "POST",
+      url: queryURL
+    });
+
+    ajaxRequest.done(function(directionsObject){
+      console.log("success!");
+      debugger
+
+    });
+
+
+  });
+
+
+});
