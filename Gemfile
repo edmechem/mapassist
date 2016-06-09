@@ -21,6 +21,7 @@ gem 'pry-byebug'
 gem 'shotgun'
 gem 'faker'
 gem 'dotenv'
+gem 'httparty'
 
 group :test do
   gem 'rspec'

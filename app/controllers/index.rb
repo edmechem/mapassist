@@ -2,10 +2,13 @@ get '/' do
   erb :index
 end
 
-# post '/directions' do
-#   if request.xhr?
-#     directionsData
-#   else
-#     redirect '/'
-#   end
-# end
+get '/directions' do
+  if request.xhr?
+    queryURL = params
+    p "****** params ******"
+    p params
+
+  else
+    redirect '/'
+  end
+end
