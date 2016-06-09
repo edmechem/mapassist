@@ -4,10 +4,24 @@
   <!-- < % end %> -->
 
   <form id="manually_enter" method="post" action="/directions">
-    <label for="origin">Start Addr. &amp; Zip: </label>
-    <input type="text" name="origin">&nbsp;&nbsp;
-    <label for="destination">Dest Addr. &amp; Zip: </label>
-    <input type="text" name="destination">&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="hidden" name="baseURL" value="https://maps.googleapis.com/maps/api/directions/json?">
+
+    <label for="origin">Start: </label>
+
+    <!-- <input type="text" name="origin" value="633 Folsom 94107">&nbsp;&nbsp; -->
+    <input type="text" name="origin" value="Montgomery St. Station 94104">&nbsp;&nbsp;
+
+    <label for="destination">Dest: </label>
+
+    <!-- <input type="text" name="destination" value="1745 Folsom 94103">&nbsp;&nbsp; -->
+    <input type="text" name="destination" value="Macarthur Station 94609">&nbsp;&nbsp;
+
+    Mode: <select name="mode">
+      <option value="driving">Driving</option>
+      <option value="bicycling">Bicycling</option>
+      <option value="walking">Walking</option>
+      <option value="transit" selected>Transit</option>
+    </select>&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="submit" value="Directions">
   </form>
   <br>

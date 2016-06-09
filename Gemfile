@@ -20,8 +20,10 @@ gem 'pry-byebug'
 
 gem 'shotgun'
 gem 'faker'
+
 gem 'dotenv'
 gem 'httparty'
+gem 'multi_xml'
 
 group :test do
   gem 'rspec'
