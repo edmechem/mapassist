@@ -6,7 +6,20 @@ $(document).ready(function() {
 
 function getDirections(event) {
   event.preventDefault();
-  initialize();
+  directionsRequest = $(this).serialize();
+
+  debugger;
+
+  // start coordinates
+  // var start = ['55.46242, 8.43872']
+  var start = ["Montgomery St. Station 94104"];
+
+  // end coordinates
+  // var end = ['51.94784, 1.2539']
+  var end = ["Macarthur Station 94609"];
+
+
+  initialize(start, end);
 };
 
 
@@ -26,20 +39,20 @@ var infowindow = new google.maps.InfoWindow({
 var bounds = new google.maps.LatLngBounds();
 
 
-// start coordinates
-// var start = ['55.46242, 8.43872']
-var start = ["Montgomery St. Station 94104"];
+// // start coordinates
+// // var start = ['55.46242, 8.43872']
+// var start = ["Montgomery St. Station 94104"];
 
-// end coordinates
-// var end = ['51.94784, 1.2539']
-var end = ["Macarthur Station 94609"];
+// // end coordinates
+// // var end = ['51.94784, 1.2539']
+// var end = ["Macarthur Station 94609"];
 
 
 
 
 // from JSFiddle
 
-function initialize() {
+function initialize(start, end) {
     for (var i=0; i < end.length; i++){
       calcRoute(start[i], end [i]);
     }
@@ -51,8 +64,8 @@ function calcRoute(source,destination){
   var polyline = new google.maps.Polyline({
      path: [],
      strokeColor: '#FF0000',
-     strokeWeight: 5,
-     strokeOpacity: 0.5
+     strokeWeight: 6,
+     strokeOpacity: 0.7
   });
 
   var directionsService = new google.maps.DirectionsService();
@@ -65,7 +78,7 @@ function calcRoute(source,destination){
   directionsService.route(request, function(result, status) {
      if (status == google.maps.DirectionsStatus.OK) {
         path = result.routes[0].overview_path;
-        debugger
+
          $(path).each(function(index, item) {
             polyline.getPath().push(item);
             bounds.extend(item);
