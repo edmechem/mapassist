@@ -6,18 +6,18 @@
   <form id="manually_enter" method="post" action="/directions">
     <!-- <input type="hidden" name="baseURL" value="https://maps.googleapis.com/maps/api/directions/json?"> -->
 
-    <label for="origin">Start: </label>
-    <!-- <input type="text" name="origin" value="Montgomery St. Station 94104">&nbsp;&nbsp; -->
-    <input type="text" name="origin" value="217 John 94611">&nbsp;&nbsp;
+    <label for="start_loc">Start: </label>
+    <!-- <input type="text" name="start_loc" value="4226 Piedmont Ave 94611">&nbsp;&nbsp; -->
+    <input type="text" name="start_loc" value="633 Folsom San Francisco">&nbsp;&nbsp;
 
     Mode: <select name="start_mode">
-      <option value="driving">Driving</option>
-      <option value="bicycling" selected>Bicycling</option>
-      <option value="walking">Walking</option>
+      <option value="DRIVING">Driving</option>
+      <option value="BICYCLING">Bicycling</option>
+      <option value="WALKING" selected>Walking</option>
     </select>&nbsp;&nbsp;
 
     <label for="start_station">BART: </label>
-    <select id="start-station" name="start_station" class="form-select">
+    <select id="start_station" name="start_station" class="form-select">
       <option value="1245 Broadway 94612">12th St. Oakland City Center</option>
       <option value="2000 Mission St 94110">16th St. Mission (SF)</option>
       <option value="1900 Broadway 94612">19th St. Oakland</option>
@@ -44,7 +44,7 @@
       <option value="800 Madison St 94607">Lake Merritt (Oakland)</option>
       <option value="555 40th St 94609">MacArthur (Oakland)</option>
       <option value="200 Rollins Rd 94030">Millbrae</option>
-      <option value="598 Market St 94104">Montgomery St. (SF)</option>
+      <option value="598 Market St 94104" selected>Montgomery St. (SF)</option>
       <option value="1750 Sacramento St 94702">North Berkeley</option>
       <option value="3700 Port Chicago Hwy CA 94520">North Concord/Martinez</option>
       <option value="37.712972,-122.21244">Oakland Int&#039;l Airport</option>
@@ -67,9 +67,9 @@
     <br>
 
     <label for="dest_station">BART: </label>
-    <select id="edit-from-station" name="from_station" class="form-select">
+    <select id="dest_station" name="dest_station" class="form-select">
       <option value="1245 Broadway 94612">12th St. Oakland City Center</option>
-      <option value="2000 Mission St 94110">16th St. Mission (SF)</option>
+      <option value="2000 Mission St 94110" selected>16th St. Mission (SF)</option>
       <option value="1900 Broadway 94612">19th St. Oakland</option>
       <option value="2800 Mission St 94110">24th St. Mission (SF)</option>
       <option value="3100 Adeline St 94703">Ashby (Berkeley)</option>
@@ -116,14 +116,14 @@
     </select>&nbsp;&nbsp;
 
     Mode: <select name="dest_mode">
-      <option value="driving">Driving</option>
-      <option value="bicycling" selected>Bicycling</option>
-      <option value="walking">Walking</option>
+      <option value="DRIVING">Driving</option>
+      <option value="BICYCLING" selected>Bicycling</option>
+      <option value="WALKING">Walking</option>
     </select>&nbsp;&nbsp;
 
-    <label for="destination">Dest: </label>
-    <!-- <input type="text" name="destination" value="Macarthur Station 94609">&nbsp;&nbsp; -->
-    <input type="text" name="destination" value="1745 Folsom 94103">&nbsp;&nbsp;
+    <label for="dest_loc">Dest: </label>
+    <!-- <input type="text" name="dest_loc" value="Macarthur Station 94609">&nbsp;&nbsp; -->
+    <input type="text" name="dest_loc" value="1745 Folsom 94103">&nbsp;&nbsp;
 
     &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Directions">
   </form>

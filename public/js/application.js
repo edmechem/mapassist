@@ -1,26 +1,63 @@
 // google.maps.event.addDomListener(window, 'load', initialize);
 $(document).ready(function() {
-  // $("#home_button").on("click", "a", initMap);
+  $("#home_button").on("click", "a", initMap);
   $("#manually_enter").on("submit", getDirections);
 });
 
 function getDirections(event) {
   event.preventDefault();
   directionsRequest = $(this).serialize();
+  directionsHash = directionsHashifier(directionsRequest);
 
-  debugger;
+  var startLocs = [
+    directionsHash.start_loc,
+    directionsHash.start_station,
+    directionsHash.dest_station
+  ];
 
-  // start coordinates
-  // var start = ['55.46242, 8.43872']
-  var start = ["Montgomery St. Station 94104"];
+  var modes = [
+    directionsHash.start_mode,
+    "TRANSIT",
+    directionsHash.dest_mode
+  ];
 
-  // end coordinates
-  // var end = ['51.94784, 1.2539']
-  var end = ["Macarthur Station 94609"];
+  var endLocs = [
+    directionsHash.start_station,
+    directionsHash.dest_station,
+    directionsHash.dest_loc
+  ];
+
+  // redo the 'driver code each time'
+  center = new google.maps.LatLng(37.784580, -122.397437);
+  map = new google.maps.Map(document.getElementById('map'), {
+     center: center,
+     zoom: 11,
+     mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+
+  infowindow = new google.maps.InfoWindow({
+    map: map
+  });
+
+  bounds = new google.maps.LatLngBounds();
 
 
-  initialize(start, end);
+
+  initialize(startLocs, modes, endLocs);
 };
+
+function directionsHashifier(directionsRequest) {
+  var output = {};
+  var paramPairs = directionsRequest.split("&");
+  for (var i = 0; i < paramPairs.length; i++) {
+    var splitPair = paramPairs[i].split("=");
+    output[splitPair[0]] = splitPair[1];
+  };
+  return output;
+};
+
+
+
 
 
 // 'driver code', runs at top level
@@ -31,7 +68,6 @@ var map = new google.maps.Map(document.getElementById('map'), {
    mapTypeId: google.maps.MapTypeId.ROADMAP
 });
 
-
 var infowindow = new google.maps.InfoWindow({
   map: map
 });
@@ -39,40 +75,45 @@ var infowindow = new google.maps.InfoWindow({
 var bounds = new google.maps.LatLngBounds();
 
 
-// // start coordinates
-// // var start = ['55.46242, 8.43872']
-// var start = ["Montgomery St. Station 94104"];
-
-// // end coordinates
-// // var end = ['51.94784, 1.2539']
-// var end = ["Macarthur Station 94609"];
-
-
 
 
 // from JSFiddle
 
-function initialize(start, end) {
-    for (var i=0; i < end.length; i++){
-      calcRoute(start[i], end [i]);
+function initialize(startLocs, modes, endLocs) {
+    for (var i=0; i < startLocs.length; i++){
+      calcRoute(startLocs[i], modes[i], endLocs [i]);
     }
 };
 
 
-function calcRoute(source,destination){
+function calcRoute(source, mode, destination){
+
+  if (mode === "BICYCLING") {
+    // var strokeColor = '#FFFF00' // yellow
+    // var strokeColor = '#00FF00' // green
+    var strokeColor = '#FF0000' // red
+  } else if (mode === "TRANSIT") {
+    var strokeColor = '#FFFF00' // yellow
+  } else if (mode === "WALKING") {
+    var strokeColor = '#008800' // green
+  } else if (mode === "DRIVING") {
+    var strokeColor = '#0000FF' // blue
+  };
+
 
   var polyline = new google.maps.Polyline({
      path: [],
-     strokeColor: '#FF0000',
+     strokeColor: strokeColor,
      strokeWeight: 6,
      strokeOpacity: 0.7
   });
 
   var directionsService = new google.maps.DirectionsService();
+
   var request = {
-     origin:source,
+     origin: source,
      destination: destination,
-     travelMode: google.maps.DirectionsTravelMode.TRANSIT
+     travelMode: google.maps.DirectionsTravelMode[mode]
   };
 
   directionsService.route(request, function(result, status) {
@@ -132,16 +173,16 @@ function calcRoute(source,destination){
 
 
 // // from Ben, kinda
-// function initMap(event) {
-//   event.preventDefault();
-//   var map;
-//   var myLatLng = {lat: 37.784580, lng: -122.397437};
-//   map = new google.maps.Map(document.getElementById('map'), {
-//     center: myLatLng,
-//     zoom: 11,
-//     mapTypeId: google.maps.MapTypeId.ROADMAP
-//   });
-// };
+function initMap(event) {
+  event.preventDefault();
+  var map;
+  var myLatLng = {lat: 37.784580, lng: -122.397437};
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: myLatLng,
+    zoom: 11,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+};
 
 
 
