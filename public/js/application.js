@@ -89,15 +89,15 @@ function initialize(startLocs, modes, endLocs) {
 function calcRoute(source, mode, destination){
 
   if (mode === "BICYCLING") {
+    var strokeColor = '#FF0000' // red
     // var strokeColor = '#FFFF00' // yellow
     // var strokeColor = '#00FF00' // green
-    var strokeColor = '#FF0000' // red
   } else if (mode === "TRANSIT") {
-    var strokeColor = '#FFFF00' // yellow
+    var strokeColor = '#0000FF' // blue
   } else if (mode === "WALKING") {
     var strokeColor = '#008800' // green
   } else if (mode === "DRIVING") {
-    var strokeColor = '#0000FF' // blue
+    var strokeColor = '#FFFF00' // yellow
   };
 
 
