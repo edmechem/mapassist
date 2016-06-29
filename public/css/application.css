@@ -2,7 +2,6 @@
   margin: 20px auto;
   width: 80%;
   padding: 0px 20px 20px 20px;
-  /*border: 1px dotted black;*/
 }
 
 #navbar ul {
@@ -19,10 +18,9 @@
   font-size: 125%;
 }
 
-
 #map {
-  width: 800px;
-  height: 800px;
+  width: 700px;
+  height: 700px;
   border: solid gray 1px;
 }
 

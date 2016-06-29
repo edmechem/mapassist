@@ -4,7 +4,7 @@ $(document).ready(function() {
   $("#manually_enter").on("submit", getDirections);
 });
 
-function getDirections(event) {
+function getDirections() {
   event.preventDefault();
   directionsRequest = $(this).serialize();
   directionsHash = directionsHashifier(directionsRequest);
@@ -27,6 +27,7 @@ function getDirections(event) {
     directionsHash.dest_loc
   ];
 
+
   // redo the 'driver code each time'
   center = new google.maps.LatLng(37.784580, -122.397437);
   map = new google.maps.Map(document.getElementById('map'), {
@@ -40,8 +41,6 @@ function getDirections(event) {
   });
 
   bounds = new google.maps.LatLngBounds();
-
-
 
   initialize(startLocs, modes, endLocs);
 };
@@ -61,18 +60,18 @@ function directionsHashifier(directionsRequest) {
 
 
 // 'driver code', runs at top level
-var center = new google.maps.LatLng(37.784580, -122.397437);
-var map = new google.maps.Map(document.getElementById('map'), {
-   center: center,
-   zoom: 11,
-   mapTypeId: google.maps.MapTypeId.ROADMAP
-});
+// var center = new google.maps.LatLng(37.784580, -122.397437);
+// var map = new google.maps.Map(document.getElementById('map'), {
+//    center: center,
+//    zoom: 11,
+//    mapTypeId: google.maps.MapTypeId.ROADMAP
+// });
 
-var infowindow = new google.maps.InfoWindow({
-  map: map
-});
+// var infowindow = new google.maps.InfoWindow({
+//   map: map
+// });
 
-var bounds = new google.maps.LatLngBounds();
+// var bounds = new google.maps.LatLngBounds();
 
 
 
@@ -82,6 +81,7 @@ var bounds = new google.maps.LatLngBounds();
 function initialize(startLocs, modes, endLocs) {
     for (var i=0; i < startLocs.length; i++){
       calcRoute(startLocs[i], modes[i], endLocs [i]);
+      // debugger;
     }
 };
 
@@ -110,39 +110,45 @@ function calcRoute(source, mode, destination){
 
   var directionsService = new google.maps.DirectionsService();
 
-  var request = {
+  request = {
      origin: source,
      destination: destination,
      travelMode: google.maps.DirectionsTravelMode[mode]
   };
+  // debugger;
 
   directionsService.route(request, function(result, status) {
-     if (status == google.maps.DirectionsStatus.OK) {
-        path = result.routes[0].overview_path;
+    if (status == google.maps.DirectionsStatus.OK) {
+      var path = result.routes[0].overview_path;
+      var route = result.routes[0];
 
-         $(path).each(function(index, item) {
-            polyline.getPath().push(item);
-            bounds.extend(item);
-         });
+      debugger
 
-        polyline.setMap(map);
-        map.fitBounds(bounds);
 
-        // Custom infoWindow
-        var toolTip = '<div id="map-box">'+
-         '<div id="siteNotice">'+
-         '</div>'+
-         '<h1 id="firstHeading" class="firstHeading">Ferry Route</h1>'+
-         '<div id="bodyContent">'+
-         '<p>Lorem ipsum dolor sit amet</p>'+
-         '</div>'+
-         '</div>';
 
-        google.maps.event.addListener(polyline, 'click', function(event) {
-            infowindow.setContent(toolTip);
-            infowindow.setPosition(event.latLng);
-            infowindow.open(map);
-        });
+      $(path).each(function(index, item) {
+          polyline.getPath().push(item);
+          bounds.extend(item);
+      });
+
+      polyline.setMap(map);
+      map.fitBounds(bounds);
+
+      // Custom infoWindow
+      var toolTip = '<div id="map-box">'+
+       '<div id="siteNotice">'+
+       '</div>'+
+       '<h1 id="firstHeading" class="firstHeading">Ferry Route</h1>'+
+       '<div id="bodyContent">'+
+       '<p>Lorem ipsum dolor sit amet</p>'+
+       '</div>'+
+       '</div>';
+
+      google.maps.event.addListener(polyline, 'click', function(event) {
+          infowindow.setContent(toolTip);
+          infowindow.setPosition(event.latLng);
+          infowindow.open(map);
+      });
     };
   });
 };
