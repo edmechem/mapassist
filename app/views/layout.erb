@@ -7,18 +7,45 @@
     See: http://necolas.github.com/normalize.css/
   -->
   <link rel="stylesheet" href="/css/normalize.css">
-  <!--
-    application.css is where you put your styles
-  -->
+
+  <!-- application.css is where you put your styles -->
   <link rel="stylesheet" href="/css/application.css">
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="/js/application.js"></script>
-
-  <title></title>
+  <title>Map Assist</title>
 </head>
 <body>
+
+  <nav>
+    <div id="navbar">
+      <ul>
+        <li id="home_button"><a href="/">Map Assist</a></li>
+        <% if current_user %>
+          <li>Logged in as <%= current_user.username %></li>
+          <li><a href="/users/<%= current_user.id %>">Profile</a></li>
+          <li><a href="/sessions/delete">Logout</a></li>
+        <% else %>
+          <li><a href="/sessions/new">Login</a></li>
+          <li><a href="/users/new">Register</a></li>
+        <% end %>
+      </ul>
+    </div>
+  </nav>
+
+
  <%= yield %>
+
+
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=< %= ENV['GOOGLE_SECRET_KEY']%>"
+    ></script>
+  -->
+
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_SECRET_KEY'] %>"></script>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="/js/application.js"></script>
+  <!-- async defer -->
+  <!-- &callback=initMap -->
+
 
 </body>
 </html>

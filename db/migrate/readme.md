@@ -1,1 +1,1 @@
-be rake generate:migration NAME=create_models
+be rake generate:migration NAME=create_users

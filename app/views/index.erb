@@ -1,3 +1,137 @@
 <div class="container">
+  <!-- < % if current_user %> -->
+  <!-- <p>Hello, < %= current_user.first_name %>!</p> -->
+  <!-- < % end %> -->
+
+  <form id="manually_enter" method="post" action="/directions">
+    <!-- <input type="hidden" name="baseURL" value="https://maps.googleapis.com/maps/api/directions/json?"> -->
+
+    <label for="start_loc">Start: </label>
+    <!-- <input type="text" name="start_loc" value="4226 Piedmont Ave 94611">&nbsp;&nbsp; -->
+    <input type="text" name="start_loc" value="633 Folsom San Francisco">&nbsp;&nbsp;
+
+    Mode: <select name="start_mode">
+      <option value="DRIVING">Driving</option>
+      <option value="BICYCLING">Bicycling</option>
+      <option value="WALKING" selected>Walking</option>
+    </select>&nbsp;&nbsp;
+
+    <label for="start_station">BART: </label>
+    <select id="start_station" name="start_station" class="form-select">
+      <option value="1245 Broadway 94612">12th St. Oakland City Center</option>
+      <option value="2000 Mission St 94110">16th St. Mission (SF)</option>
+      <option value="1900 Broadway 94612">19th St. Oakland</option>
+      <option value="2800 Mission St 94110">24th St. Mission (SF)</option>
+      <option value="3100 Adeline St 94703">Ashby (Berkeley)</option>
+      <option value="401 Geneva Ave 94112">Balboa Park (SF)</option>
+      <option value="15242 Hesperian Blvd 94578">Bay Fair (San Leandro)</option>
+      <option value="3301 Norbridge Ave 94546">Castro Valley</option>
+      <option value="1150 Market St 94102">Civic Center/UN Plaza (SF)</option>
+      <option value="7200 San Leandro St 94621">Coliseum</option>
+      <option value="37.684638,-122.466233">Colma</option>
+      <option value="37.973737,-122.029095">Concord</option>
+      <option value="37.706121,-122.469081">Daly City</option>
+      <option value="2160 Shattuck Ave 94704">Downtown Berkeley</option>
+      <option value="5801 Owens Dr 94588">Dublin/Pleasanton</option>
+      <option value="37.925655,-122.317269">El Cerrito del Norte</option>
+      <option value="6699 Fairmount Ave 94530">El Cerrito Plaza</option>
+      <option value="298 Market St 94111">Embarcadero (SF)</option>
+      <option value="2000 Bart Way 94536">Fremont</option>
+      <option value="3401 E 12th St 94601">Fruitvale (Oakland)</option>
+      <option value="2901 Diamond St 94131">Glen Park (SF)</option>
+      <option value="37.670399,-122.087967">Hayward</option>
+      <option value="3601 Deer Hill Rd CA 94549">Lafayette</option>
+      <option value="800 Madison St 94607">Lake Merritt (Oakland)</option>
+      <option value="555 40th St 94609">MacArthur (Oakland)</option>
+      <option value="200 Rollins Rd 94030">Millbrae</option>
+      <option value="598 Market St 94104" selected>Montgomery St. (SF)</option>
+      <option value="1750 Sacramento St 94702">North Berkeley</option>
+      <option value="3700 Port Chicago Hwy CA 94520">North Concord/Martinez</option>
+      <option value="37.712972,-122.21244">Oakland Int&#039;l Airport</option>
+      <option value="11 Camino Pablo 94563">Orinda</option>
+      <option value="1700 W Leland Rd CA 94565">Pittsburg/Bay Point</option>
+      <option value="1365 Treat Blvd 94597">Pleasant Hill/Contra Costa Centre</option>
+      <option value="899 Market St 94103">Powell St. (SF)</option>
+      <option value="1700 Nevin Ave 94801">Richmond</option>
+      <option value="5660 College Ave 94618">Rockridge (Oakland)</option>
+      <option value="37.637753,-122.416038">San Bruno</option>
+      <option value="37.616035,-122.392612">San Francisco Int&#039;l Airport</option>
+      <option value="1401 San Leandro Blvd 94577">San Leandro</option>
+      <option value="28601 Dixon St 94544">South Hayward</option>
+      <option value="1333 Mission Rd CA 94080">South San Francisco</option>
+      <option value="10 Union Square 94587">Union City</option>
+      <option value="37.905628,-122.067423">Walnut Creek</option>
+      <option value="6501 Golden Gate Dr 94568">West Dublin/Pleasanton</option>
+      <option value="1451 7th St 94607">West Oakland</option>
+    </select><br>
+    <br>
+
+    <label for="dest_station">BART: </label>
+    <select id="dest_station" name="dest_station" class="form-select">
+      <option value="1245 Broadway 94612">12th St. Oakland City Center</option>
+      <option value="2000 Mission St 94110" selected>16th St. Mission (SF)</option>
+      <option value="1900 Broadway 94612">19th St. Oakland</option>
+      <option value="2800 Mission St 94110">24th St. Mission (SF)</option>
+      <option value="3100 Adeline St 94703">Ashby (Berkeley)</option>
+      <option value="401 Geneva Ave 94112">Balboa Park (SF)</option>
+      <option value="15242 Hesperian Blvd 94578">Bay Fair (San Leandro)</option>
+      <option value="3301 Norbridge Ave 94546">Castro Valley</option>
+      <option value="1150 Market St 94102">Civic Center/UN Plaza (SF)</option>
+      <option value="7200 San Leandro St 94621">Coliseum</option>
+      <option value="37.684638,-122.466233">Colma</option>
+      <option value="37.973737,-122.029095">Concord</option>
+      <option value="37.706121,-122.469081">Daly City</option>
+      <option value="2160 Shattuck Ave 94704">Downtown Berkeley</option>
+      <option value="5801 Owens Dr 94588">Dublin/Pleasanton</option>
+      <option value="37.925655,-122.317269">El Cerrito del Norte</option>
+      <option value="6699 Fairmount Ave 94530">El Cerrito Plaza</option>
+      <option value="298 Market St 94111">Embarcadero (SF)</option>
+      <option value="2000 Bart Way 94536">Fremont</option>
+      <option value="3401 E 12th St 94601">Fruitvale (Oakland)</option>
+      <option value="2901 Diamond St 94131">Glen Park (SF)</option>
+      <option value="37.670399,-122.087967">Hayward</option>
+      <option value="3601 Deer Hill Rd CA 94549">Lafayette</option>
+      <option value="800 Madison St 94607">Lake Merritt (Oakland)</option>
+      <option value="555 40th St 94609">MacArthur (Oakland)</option>
+      <option value="200 Rollins Rd 94030">Millbrae</option>
+      <option value="598 Market St 94104">Montgomery St. (SF)</option>
+      <option value="1750 Sacramento St 94702">North Berkeley</option>
+      <option value="3700 Port Chicago Hwy CA 94520">North Concord/Martinez</option>
+      <option value="37.712972,-122.21244">Oakland Int&#039;l Airport</option>
+      <option value="11 Camino Pablo 94563">Orinda</option>
+      <option value="1700 W Leland Rd CA 94565">Pittsburg/Bay Point</option>
+      <option value="1365 Treat Blvd 94597">Pleasant Hill/Contra Costa Centre</option>
+      <option value="899 Market St 94103">Powell St. (SF)</option>
+      <option value="1700 Nevin Ave 94801">Richmond</option>
+      <option value="5660 College Ave 94618">Rockridge (Oakland)</option>
+      <option value="37.637753,-122.416038">San Bruno</option>
+      <option value="37.616035,-122.392612">San Francisco Int&#039;l Airport</option>
+      <option value="1401 San Leandro Blvd 94577">San Leandro</option>
+      <option value="28601 Dixon St 94544">South Hayward</option>
+      <option value="1333 Mission Rd CA 94080">South San Francisco</option>
+      <option value="10 Union Square 94587">Union City</option>
+      <option value="37.905628,-122.067423">Walnut Creek</option>
+      <option value="6501 Golden Gate Dr 94568">West Dublin/Pleasanton</option>
+      <option value="1451 7th St 94607">West Oakland</option>
+    </select>&nbsp;&nbsp;
+
+    Mode: <select name="dest_mode">
+      <option value="DRIVING">Driving</option>
+      <option value="BICYCLING" selected>Bicycling</option>
+      <option value="WALKING">Walking</option>
+    </select>&nbsp;&nbsp;
+
+    <label for="dest_loc">Dest: </label>
+    <!-- <input type="text" name="dest_loc" value="Macarthur Station 94609">&nbsp;&nbsp; -->
+    <input type="text" name="dest_loc" value="1745 Folsom 94103">&nbsp;&nbsp;
+
+    &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Directions">
+  </form>
+  <br>
+
+
+  <div id="map">
+  </div>
+
 </div>
 

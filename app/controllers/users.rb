@@ -4,11 +4,13 @@ get '/users/new' do
 end
 
 post '/users/new' do
-  @user = User.new(username: params[:username], password: params[:password])
+  @user = User.new(params)
   if @user.save
-    session[:id] = @user.id
+    session[:user_id] = @user.id
     redirect '/'
   else
+    p "***************"
+    p "error!"
     #error handling goes here
     redirect '/users/new'
   end

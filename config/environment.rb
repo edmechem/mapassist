@@ -23,6 +23,11 @@ require 'faker'
 require 'bcrypt'
 require 'pry-byebug'
 
+require 'dotenv'
+Dotenv.load
+require 'httparty'
+require 'multi_xml'
+
 # Some helper constants for path-centric logic
 APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
 

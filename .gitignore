@@ -23,5 +23,5 @@ ignored/
 chromedriver.log
 .tddium*
 bin/
-.env
 *.swp
+Gemfile.lock

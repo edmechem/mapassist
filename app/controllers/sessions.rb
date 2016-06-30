@@ -4,23 +4,21 @@ get '/sessions/new' do
 end
 
 post '/sessions/new' do
-  #find user based on email address
   @user = User.find_by(username: params[:username])
-  #validate user based on valid password
-  #if it does
-  #&& is checking if user is not nill !!
-  if @user && @user.password == params[:password]
-    #set the user-id to session
+  password = params[:password]
+
+  if @user && @user.authenticate(password)
     session[:user_id] = @user.id
     redirect '/'
   else
-    @error = "Your password or email was incorrect"
+    @error = "Your username or password was incorrect"
+    p "************"
+    p @error
     erb :'/sessions/new'
   end
 end
 
 get '/sessions/delete' do
-  session.[:user_id] = nil
-  current_user = nil
+  session.clear
   redirect '/'
 end
