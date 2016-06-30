@@ -11,6 +11,19 @@
   <!-- application.css is where you put your styles -->
   <link rel="stylesheet" href="/css/application.css">
 
+
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=< %= ENV['GOOGLE_SECRET_KEY']%>"
+    ></script>
+  -->
+
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_SECRET_KEY'] %>"></script>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="/js/application.js"></script>
+  <!-- async defer -->
+  <!-- &callback=initMap -->
+
+
   <title>Map Assist</title>
 </head>
 <body>
@@ -34,17 +47,6 @@
 
  <%= yield %>
 
-
-  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=< %= ENV['GOOGLE_SECRET_KEY']%>"
-    ></script>
-  -->
-
-  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_SECRET_KEY'] %>"></script>
-
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="/js/application.js"></script>
-  <!-- async defer -->
-  <!-- &callback=initMap -->
 
 
 </body>
