@@ -24,5 +24,4 @@ chromedriver.log
 .tddium*
 bin/
 *.swp
-Gemfile.lock
 .env
