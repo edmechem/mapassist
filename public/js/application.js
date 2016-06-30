@@ -122,7 +122,7 @@ function calcRoute(source, mode, destination){
       var path = result.routes[0].overview_path;
       var route = result.routes[0];
 
-      debugger
+      // debugger
 
 
 
