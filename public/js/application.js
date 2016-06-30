@@ -4,6 +4,18 @@ $(document).ready(function() {
   $("#manually_enter").on("submit", getDirections);
 });
 
+function initMap(event) {
+  event.preventDefault();
+  var map;
+  var myLatLng = {lat: 37.784580, lng: -122.397437};
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: myLatLng,
+    zoom: 11,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+};
+
+
 function getDirections() {
   event.preventDefault();
   directionsRequest = $(this).serialize();
@@ -178,14 +190,3 @@ function calcRoute(source, mode, destination){
 // };
 
 
-// // from Ben, kinda
-function initMap(event) {
-  event.preventDefault();
-  var map;
-  var myLatLng = {lat: 37.784580, lng: -122.397437};
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: myLatLng,
-    zoom: 11,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  });
-};
