@@ -27,10 +27,6 @@ gem 'dotenv'
 gem 'httparty'
 gem 'multi_xml'
 
-group :test do
-  gem 'rspec'
-end
-
 group :production do
   gem 'rspec'
 end
