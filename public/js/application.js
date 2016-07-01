@@ -1,19 +1,83 @@
-// google.maps.event.addDomListener(window, 'load', initialize);
 $(document).ready(function() {
+  initMap();
   $("#home_button").on("click", "a", initMap);
   $("#manually_enter").on("submit", getDirections);
 });
 
-function initMap(event) {
-  event.preventDefault();
+function initMap() {
+  // google.maps.controlStyle = 'azteca' // allow 'old-style' Pan Controls w/ new map; thru Aug '16
   var map;
   var myLatLng = {lat: 37.784580, lng: -122.397437};
   map = new google.maps.Map(document.getElementById('map'), {
     center: myLatLng,
     zoom: 11,
+    fullscreenControl: false,
+    // panControl: true, // doesn't work even with 'azteca' - forget about it
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
+
+  var defaultBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(37.784580, -122.397437),
+    new google.maps.LatLng(37.784580, -122.397437)
+  );
+  var options = { bounds: defaultBounds };
+
+  var input = document.getElementById('pac-input');
+  // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); // if I wanted it to show *on* the map
+  var autocomplete = new google.maps.places.Autocomplete(input,options);
+  autocomplete.bindTo('bounds', map);
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    var place = autocomplete.getPlace();
+    // console.log("place: " + JSON.stringify(place) );
+
+    // from Stack Overflow http://stackoverflow.com/questions/3926836/using-google-maps-api-v3-how-do-i-get-latlng-with-a-given-address
+    geocoder = new google.maps.Geocoder();
+    function codeAddress(address) {
+        return geocoder.geocode( { 'address' : address }, function( results, status ) {
+            if( status == google.maps.GeocoderStatus.OK ) {
+
+                //In this case it creates a marker, but you can get the lat and lng from the location.LatLng
+                // map.setCenter( results[0].geometry.location );
+                // var marker = new google.maps.Marker( {
+                //     map     : map,
+                //     position: results[0].geometry.location
+                // } );
+                return results[0].geometry.location
+            } else {
+                alert( 'Geocode was not successful for the following reason: ' + status );
+            }
+        } );
+    }
+
+
+    placeLatLng = codeAddress(place.formatted_address);
+    console.log(placeLatLng);
+    // var marker = new google.maps.Marker({
+    //   position
+    // })
+
+  })
+
+  // var newPlace = autocomplete.getPlace();
+  // console.log(newPlace);
+  // debugger;
 };
+
+// autocomplete stuff
+function setupAutoComplete() {
+  var defaultBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(36.784580, -121.397437),
+    new google.maps.LatLng(38.784580, -123.397437)
+  );
+  var options = { bounds: defaultBounds };
+
+  var input = document.getElementById('pac-input');
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  var autocomplete = new google.maps.places.Autocomplete(input,options);
+}
+
+
+
 
 
 function getDirections() {
@@ -48,9 +112,9 @@ function getDirections() {
      mapTypeId: google.maps.MapTypeId.ROADMAP
   });
 
-  infowindow = new google.maps.InfoWindow({
-    map: map
-  });
+  // infowindow = new google.maps.InfoWindow({
+  //   map: map
+  // });
 
   bounds = new google.maps.LatLngBounds();
 
@@ -67,36 +131,11 @@ function directionsHashifier(directionsRequest) {
   return output;
 };
 
-
-
-
-
-// 'driver code', runs at top level
-// var center = new google.maps.LatLng(37.784580, -122.397437);
-// var map = new google.maps.Map(document.getElementById('map'), {
-//    center: center,
-//    zoom: 11,
-//    mapTypeId: google.maps.MapTypeId.ROADMAP
-// });
-
-// var infowindow = new google.maps.InfoWindow({
-//   map: map
-// });
-
-// var bounds = new google.maps.LatLngBounds();
-
-
-
-
-// from JSFiddle
-
 function initialize(startLocs, modes, endLocs) {
     for (var i=0; i < startLocs.length; i++){
       calcRoute(startLocs[i], modes[i], endLocs [i]);
-      // debugger;
     }
 };
-
 
 function calcRoute(source, mode, destination){
 
@@ -127,14 +166,11 @@ function calcRoute(source, mode, destination){
      destination: destination,
      travelMode: google.maps.DirectionsTravelMode[mode]
   };
-  // debugger;
 
   directionsService.route(request, function(result, status) {
     if (status == google.maps.DirectionsStatus.OK) {
       var path = result.routes[0].overview_path;
       var route = result.routes[0];
-
-      // debugger
 
 
 
@@ -145,6 +181,10 @@ function calcRoute(source, mode, destination){
 
       polyline.setMap(map);
       map.fitBounds(bounds);
+
+      infowindow = new google.maps.InfoWindow({
+        map: map
+      });
 
       // Custom infoWindow
       var toolTip = '<div id="map-box">'+
@@ -166,27 +206,22 @@ function calcRoute(source, mode, destination){
 };
 
 
-
-
-
-
-// // mine
-// function centerOfBounds(bounds) {
-//   var latCenter = ((bounds.northeast.lat + bounds.southwest.lat)/2);
-//   var lngCenter = ((bounds.northeast.lng + bounds.southwest.lng)/2);
-//   var center = {
-//     lat: latCenter,
-//     lng: lngCenter
-//   };
-//   return center;
-// };
-
-// function stringifyLocation(location) {
-//   var output = "";
-//   output += location.lat;
-//   output += ", ";
-//   output += location.lng;
-//   return output;
-// };
+// not using currently
+function centerOfBounds(bounds) {
+  var latCenter = ((bounds.northeast.lat + bounds.southwest.lat)/2);
+  var lngCenter = ((bounds.northeast.lng + bounds.southwest.lng)/2);
+  var center = {
+    lat: latCenter,
+    lng: lngCenter
+  };
+  return center;
+};
+function stringifyLocation(location) {
+  var output = "";
+  output += location.lat;
+  output += ", ";
+  output += location.lng;
+  return output;
+};
 
 

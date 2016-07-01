@@ -27,3 +27,7 @@
 #manually_enter {
   font-size: 80%;
 }
+
+#pac-input {
+  width: 400px;
+}
