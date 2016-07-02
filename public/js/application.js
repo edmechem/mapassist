@@ -6,8 +6,8 @@ $(document).ready(function() {
 
 function initMap() {
   // google.maps.controlStyle = 'azteca' // allow 'old-style' Pan Controls w/ new map; thru Aug '16
-  var map;
-  var myLatLng = {lat: 37.784580, lng: -122.397437};
+  // var map;
+  myLatLng = {lat: 37.784580, lng: -122.397437};
   map = new google.maps.Map(document.getElementById('map'), {
     center: myLatLng,
     zoom: 11,
@@ -28,39 +28,23 @@ function initMap() {
   autocomplete.bindTo('bounds', map);
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
     var place = autocomplete.getPlace();
+    var formatted_address = place.formatted_address;
     // console.log("place: " + JSON.stringify(place) );
+    var placeId = place.place_id;
+    // geocoder = new google.maps.Geocoder;
+    // infowindow = new google.maps.InfoWindow;
+    // debugger;
+    geocoder = new google.maps.Geocoder;
+    var placeLatLng = geocodePlaceId(geocoder, placeId);
+    // debugger;
+    // console.log(placeLatLng);
+    // geocodePlaceId(geocoder, map, infowindow)
+    // setMarker(placeLatLng, formatted_address)
 
-    // from Stack Overflow http://stackoverflow.com/questions/3926836/using-google-maps-api-v3-how-do-i-get-latlng-with-a-given-address
-    geocoder = new google.maps.Geocoder();
-    function codeAddress(address) {
-        return geocoder.geocode( { 'address' : address }, function( results, status ) {
-            if( status == google.maps.GeocoderStatus.OK ) {
-
-                //In this case it creates a marker, but you can get the lat and lng from the location.LatLng
-                // map.setCenter( results[0].geometry.location );
-                // var marker = new google.maps.Marker( {
-                //     map     : map,
-                //     position: results[0].geometry.location
-                // } );
-                return results[0].geometry.location
-            } else {
-                alert( 'Geocode was not successful for the following reason: ' + status );
-            }
-        } );
-    }
-
-
-    placeLatLng = codeAddress(place.formatted_address);
-    console.log(placeLatLng);
-    // var marker = new google.maps.Marker({
-    //   position
-    // })
 
   })
 
-  // var newPlace = autocomplete.getPlace();
-  // console.log(newPlace);
-  // debugger;
+
 };
 
 // autocomplete stuff
@@ -77,7 +61,65 @@ function setupAutoComplete() {
 }
 
 
+// adapted from https://developers.google.com/maps/documentation/javascript/examples/geocoding-place-id#try-it-yourself
+function geocodePlaceId(geocoder, placeId) {
+  // var theLatLng = {lat: 0.0, lng: 0.0};
+  // var geocoder = new google.maps.Geocoder;
+  geocoder.geocode({'placeId': placeId}, function(results, status) {
+    if (status === google.maps.GeocoderStatus.OK) {
+      if (results[0]) {
+        var theLoc = results[0].geometry.location;
 
+        var theLat = theLoc.lat();
+        var theLat = parseFloat(theLat);
+        var theLng = theLoc.lng();
+        var theLng = parseFloat(theLng);
+
+        theLatLng = {lat: theLat, lng: theLng}
+        // theLatLng.lat = theLat;
+        // theLatLng.lng = theLng;
+        // debugger;
+        // debugger;
+        // return theLatLng;
+
+        // map.setZoom(11);
+        // map.setCenter(results[0].geometry.location);
+        // var marker = new google.maps.Marker({
+        //   map: map,
+        //   position: results[0].geometry.location
+        // });
+        // infowindow.setContent(results[0].formatted_address);
+        // infowindow.open(map, marker);
+        // debugger;
+      } else {
+        window.alert('No results found');
+      }
+    } else {
+      window.alert('Geocoder failed due to: ' + status);
+    }
+  });
+  debugger;
+  // return theLatLng;
+  return theLatLng;
+}
+
+
+function setMarker(latLng, formatted_address) {
+  // map.setCenter(latLng);
+  var infowindow = new google.maps.InfoWindow;
+
+  var marker = new google.maps.Marker({
+    map: map,
+    position: latLng,
+  });
+
+  infowindow.setContent(formatted_address);
+  infowindow.open(map, marker);
+
+}
+
+    // placeLatLng = codeAddress(place.formatted_address);
+    // console.log(placeLatLng);
 
 
 function getDirections() {
