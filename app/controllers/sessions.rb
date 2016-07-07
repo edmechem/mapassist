@@ -19,6 +19,6 @@ post '/sessions/new' do
 end
 
 get '/sessions/delete' do
-  session.clear
+  session[:user_id] = nil
   redirect '/'
 end

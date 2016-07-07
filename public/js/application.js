@@ -26,26 +26,77 @@ function initMap() {
   // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); // if I wanted it to show *on* the map
   var autocomplete = new google.maps.places.Autocomplete(input,options);
   autocomplete.bindTo('bounds', map);
+
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
     var place = autocomplete.getPlace();
-    var formatted_address = place.formatted_address;
     // console.log("place: " + JSON.stringify(place) );
+
     var placeId = place.place_id;
-    // geocoder = new google.maps.Geocoder;
-    // infowindow = new google.maps.InfoWindow;
+    var placeID = placeId;
+
+    var placeURL = place.url;
+
+    if (place.name != null) { var placeName = place.name } else {
+      var placeName = "" }
+
+    // build up meaningful address if it's vague
+    if (place.formatted_address != "United States") {
+      var placeAddr = place.formatted_address;
+    } else {
+      var placeAddr = placeName + ', ' +
+        place.address_components[2].long_name + ', ' +   // city
+        place.address_components[4].short_name + ' ' +   // state
+        place.address_components[5].long_name            // zip
+    }
+
+    var placeLatLng = {
+      lat: place.geometry.location.lat(),
+      lng: place.geometry.location.lng()
+    }
+
+    if (place.website != null) { var placeWebsite = place.website } else {
+      var placeWebsite = "" }
+
+    var bodyContent = constructBodyContent(placeAddr, placeURL, placeWebsite)
+    var infoWindowContent = constructInfoWindowContent(placeName, bodyContent)
+
     // debugger;
-    geocoder = new google.maps.Geocoder;
-    var placeLatLng = geocodePlaceId(geocoder, placeId);
-    // debugger;
-    // console.log(placeLatLng);
-    // geocodePlaceId(geocoder, map, infowindow)
-    // setMarker(placeLatLng, formatted_address)
+
+    setMarker(placeLatLng, infoWindowContent)
+
 
 
   })
 
 
 };
+
+
+function constructBodyContent(placeAddr, placeURL, placeWebsite) {
+  outputString = '<p><a href="' + placeURL + '" target="_blank">' +
+    placeAddr + '</a></p>';
+  if (placeWebsite != "") {
+    outputString += '<p><a href="' + placeWebsite + '" target="_blank">' +
+    placeWebsite + '</a></p>';
+  }
+  return outputString;
+}
+
+function constructInfoWindowContent(firstHeading, bodyContent) {
+  contentString =
+    '<div id="content">' +
+      // '<div id="siteNotice">' +
+      // '</div>' +
+      '<h1 id="firstHeading" class="firstHeading">' +
+        firstHeading +
+      '</h1>' +
+      '<div id="bodyContent">' +
+        bodyContent +
+      '</div>'+
+    '</div>';
+    return contentString;
+}
+
 
 // autocomplete stuff
 function setupAutoComplete() {
@@ -61,65 +112,23 @@ function setupAutoComplete() {
 }
 
 
-// adapted from https://developers.google.com/maps/documentation/javascript/examples/geocoding-place-id#try-it-yourself
-function geocodePlaceId(geocoder, placeId) {
-  // var theLatLng = {lat: 0.0, lng: 0.0};
-  // var geocoder = new google.maps.Geocoder;
-  geocoder.geocode({'placeId': placeId}, function(results, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
-      if (results[0]) {
-        var theLoc = results[0].geometry.location;
-
-        var theLat = theLoc.lat();
-        var theLat = parseFloat(theLat);
-        var theLng = theLoc.lng();
-        var theLng = parseFloat(theLng);
-
-        theLatLng = {lat: theLat, lng: theLng}
-        // theLatLng.lat = theLat;
-        // theLatLng.lng = theLng;
-        // debugger;
-        // debugger;
-        // return theLatLng;
-
-        // map.setZoom(11);
-        // map.setCenter(results[0].geometry.location);
-        // var marker = new google.maps.Marker({
-        //   map: map,
-        //   position: results[0].geometry.location
-        // });
-        // infowindow.setContent(results[0].formatted_address);
-        // infowindow.open(map, marker);
-        // debugger;
-      } else {
-        window.alert('No results found');
-      }
-    } else {
-      window.alert('Geocoder failed due to: ' + status);
-    }
-  });
-  debugger;
-  // return theLatLng;
-  return theLatLng;
-}
 
 
-function setMarker(latLng, formatted_address) {
-  // map.setCenter(latLng);
+function setMarker(latLng, infoWindowContent) {
   var infowindow = new google.maps.InfoWindow;
-
   var marker = new google.maps.Marker({
     map: map,
     position: latLng,
   });
-
-  infowindow.setContent(formatted_address);
+  infowindow.setContent(infoWindowContent);
   infowindow.open(map, marker);
-
+  marker.addListener('click', function() {
+    infowindow.open(map, marker)
+  })
 }
 
-    // placeLatLng = codeAddress(place.formatted_address);
-    // console.log(placeLatLng);
+
+
 
 
 function getDirections() {
@@ -266,4 +275,64 @@ function stringifyLocation(location) {
   return output;
 };
 
+
+// adapted from https://developers.google.com/maps/documentation/javascript/examples/geocoding-place-id#try-it-yourself
+// doesn't really work -- won't *actually return* the LatLng
+function geocodePlaceId(geocoder, placeId) {
+  // // var theLatLng = {lat: 0.0, lng: 0.0};
+  // // var geocoder = new google.maps.Geocoder;
+  // geocoder.geocode({'placeId': placeId}, function(results, status) {
+  //   if (status === google.maps.GeocoderStatus.OK) {
+  //     if (results[0]) {
+  //       var theLoc = results[0].geometry.location;
+
+  //       var theLat = theLoc.lat();
+  //       var theLat = parseFloat(theLat);
+  //       var theLng = theLoc.lng();
+  //       var theLng = parseFloat(theLng);
+
+  //       theLatLng = {lat: theLat, lng: theLng}
+  //       // theLatLng.lat = theLat;
+  //       // theLatLng.lng = theLng;
+  //       // debugger;
+  //       // debugger;
+  //       // return theLatLng;
+
+  //       // map.setZoom(11);
+  //       // map.setCenter(results[0].geometry.location);
+  //       // var marker = new google.maps.Marker({
+  //       //   map: map,
+  //       //   position: results[0].geometry.location
+  //       // });
+  //       // infowindow.setContent(results[0].formatted_address);
+  //       // infowindow.open(map, marker);
+  //       // debugger;
+  //     } else {
+  //       window.alert('No results found');
+  //     }
+  //   } else {
+  //     window.alert('Geocoder failed due to: ' + status);
+  //   }
+  // });
+  // debugger;
+  // // return theLatLng;
+  // return theLatLng;
+}
+
+
+// // the following (in conjunction w/ geocode route
+// // in controller using ruby geocode gem)
+// // *works* - but isn't necessary, now that I know about
+// // getting place.geometry.location.lat() & .lng()
+// // was in the initMap() function
+// $.ajax({
+//   method: "POST",
+//   url: "/geocode/new",
+//   data: {location: formatted_address},
+//   dataType: "json"
+// })
+// .done(function(response) {
+//   console.log(response);
+//   debugger;
+// })
 

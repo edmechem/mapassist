@@ -26,6 +26,7 @@ gem 'faker'
 gem 'dotenv'
 gem 'httparty'
 gem 'multi_xml'
+gem 'geocoder'
 
 group :production do
   gem 'rspec'
