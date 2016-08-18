@@ -22,7 +22,7 @@
       <% if current_user %>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><span class="glyphicon glyphicon-user"></span> Map Assist</b> <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><span class="glyphicon glyphicon-user"></span> <%= current_user.first_name %></b> <span class="caret"></span></a>
           <ul id="login-dp" class="dropdown-menu">
             <li>
                <div class="row">
@@ -45,7 +45,7 @@
             <li>
                <div class="row">
                   <div class="col-md-12">
-                     <form class="form" role="form" method="post" action="/login" accept-charset="UTF-8" id="login-nav">
+                     <form class="form" role="form" method="post" action="/sessions/new" accept-charset="UTF-8" id="login-nav">
                         <div class="form-group">
                            <label class="sr-only" for="exampleInputEmail2">Email</label>
                            <input type="email" class="form-control" name="email" id="exampleInputEmail2" placeholder="Email" required>

@@ -28,6 +28,7 @@ function initMap() {
   autocomplete.bindTo('bounds', map);
 
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    debugger;
     var place = autocomplete.getPlace();
     // console.log("place: " + JSON.stringify(place) );
 
@@ -60,7 +61,7 @@ function initMap() {
     var bodyContent = constructBodyContent(placeAddr, placeURL, placeWebsite)
     var infoWindowContent = constructInfoWindowContent(placeName, bodyContent)
 
-    // debugger;
+
 
     setMarker(placeLatLng, infoWindowContent)
 
@@ -99,22 +100,23 @@ function constructInfoWindowContent(firstHeading, bodyContent) {
 
 
 // autocomplete stuff
-function setupAutoComplete() {
-  var defaultBounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(36.784580, -121.397437),
-    new google.maps.LatLng(38.784580, -123.397437)
-  );
-  var options = { bounds: defaultBounds };
+// function setupAutoComplete() {
+//   var defaultBounds = new google.maps.LatLngBounds(
+//     new google.maps.LatLng(36.784580, -121.397437),
+//     new google.maps.LatLng(38.784580, -123.397437)
+//   );
+//   var options = { bounds: defaultBounds };
 
-  var input = document.getElementById('pac-input');
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-  var autocomplete = new google.maps.places.Autocomplete(input,options);
-}
+//   var input = document.getElementById('pac-input');
+//   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+//   var autocomplete = new google.maps.places.Autocomplete(input,options);
+// }
 
 
 
 
 function setMarker(latLng, infoWindowContent) {
+
   var infowindow = new google.maps.InfoWindow;
   var marker = new google.maps.Marker({
     map: map,
