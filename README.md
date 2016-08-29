@@ -1,15 +1,8 @@
 # Map Assist
 
-[Google Maps](http://maps.google.com) is great - you can get directions for:
+[Google Maps](http://maps.google.com) is great - you can get directions for Driving or Bicycling or Walking or Transit.
 
-- Driving
-- Bicycling
-- Walking
-- Transit
-
-But....    you can't mix & match!   (well, except for walking + transit).
-
-If you want to map a trip via Bicycle + [BART](http://www.bart.gov) + Bicycle - sorry, you'll need to call up directions on **three separate** Google Maps! 🤔
+But....    you can't mix & match!   (well, except for walking + transit). If you want to map a trip via Bicycle + [BART](http://www.bart.gov) + Bicycle - sorry, you'll need to call up directions on **three separate** Google Maps! 🤔
 
 This is where **Map Assist** comes in.
 
@@ -21,7 +14,7 @@ Map Assist lets you enter a starting & ending destination, two BART stations, an
 
 The in-progress version on the [development branch](https://github.com/edmechem/mapassist/tree/development) will have the following additional features:
 
-- Location input via Google Places field, with autocomplete drop-down menu.
+- Location input via a Google Places field, with autocomplete drop-down.
 - Favorites: Saved locations, legs & trips
 - Aggregate time calculation for entire trip
-- Nicer style & mobile-friendly responsive design
+- Nicer style & more responsive mobile-friendly design
